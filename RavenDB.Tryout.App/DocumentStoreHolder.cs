@@ -1,5 +1,6 @@
 ﻿using System;
 using Raven.Client.Documents;
+using RavenDB.Tryout.App.Indexes;
 
 namespace RavenDB.Tryout.App
 {
@@ -14,7 +15,12 @@ namespace RavenDB.Tryout.App
                     Database = "CRUD"
                 };
 
-                return store.Initialize();
+                store.Initialize();
+                
+                store.ExecuteIndex(new Product_SearchCategoryName());
+                store.ExecuteIndex(new Orders_ProductCont());
+
+                return store;
             });
 
         public static IDocumentStore Store => LazyStore.Value;
